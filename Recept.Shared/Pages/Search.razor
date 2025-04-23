@@ -1,0 +1,77 @@
+@page "/search"
+@using Recept.Shared.Components;
+@inject NavigationManager NavigationManager
+@inject ApiService ApiService
+
+
+@if (isLoading)
+{
+    <Loading />
+}
+else if (meals == null || !meals.Any())
+{
+    <NoMeal />
+}
+else
+{
+    <main class="main-content">
+        <h1 class="section-title">Result for: @searchQuery</h1>
+        <div class="recept-content">
+            @foreach (Meal meal in meals)
+            {
+                <MealCard meal="meal" />
+            }
+        </div>
+    </main>
+}
+
+@code {
+    bool isLoading = true;
+    private List<Meal> meals = new();
+    private string searchQuery;
+
+    protected override void OnInitialized()
+    {
+        NavigationManager.LocationChanged += OnLocationChanged;
+    }
+
+    private async void OnLocationChanged(object sender, Microsoft.AspNetCore.Components.Routing.LocationChangedEventArgs e)
+    {
+        await LoadSearch();
+        StateHasChanged();
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await LoadSearch();
+    }
+
+    private async Task LoadSearch()
+    {
+        isLoading = true;
+        meals = new();
+
+        var uri = new Uri(NavigationManager.Uri);
+        var queryParams = System.Web.HttpUtility.ParseQueryString(uri.Query);
+        searchQuery = queryParams["q"];
+
+        if (!string.IsNullOrWhiteSpace(searchQuery))
+        {
+            try
+            {
+                meals = await ApiService.SearchMealByIngredient(searchQuery);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Error: {e.Message}");
+            }
+        }
+
+        isLoading = false;
+    }
+
+    public void Dispose()
+    {
+        NavigationManager.LocationChanged -= OnLocationChanged;
+    }
+}

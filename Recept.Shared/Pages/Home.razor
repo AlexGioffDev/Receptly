@@ -1,0 +1,58 @@
+﻿@page "/"
+@using Recept.Shared.Services
+@using Recept.Shared.Components
+@inject ApiService ApiService
+
+<PageTitle>Receptly | HomePage</PageTitle>
+
+@if (isLoading)
+{
+    <Loading />
+}
+else if (!meals.Any())
+{
+    <NoMeal />
+}
+
+else
+{
+    <main class="main-content">
+        <h1 class="section-title">Try Something New Today</h1>
+
+        <div class="recept-content">
+            @foreach (Meal meal in meals)
+            {
+                <MealCard meal="meal" />
+            }
+        </div>
+    </main>
+}
+
+
+@code {
+    List<Meal> meals = new();
+    bool isLoading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadData();
+    }
+
+    private async Task LoadData()
+    {
+        isLoading = true;
+        try
+        {
+            meals = await ApiService.GetRandomRecepts(20);
+
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"Error: {e.Message}");
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+}

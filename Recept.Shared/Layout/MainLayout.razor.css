@@ -1,0 +1,8 @@
+.screen {
+  width: 100vw;
+  height: 100vh;
+  background-color: #fbe9d0;
+  display: grid;
+  grid-template-rows: repeat(12, 1fr);
+  grid-template-columns: repeat(12, 1fr);
+}

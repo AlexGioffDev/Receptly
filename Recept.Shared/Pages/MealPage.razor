@@ -1,0 +1,83 @@
+@page "/meal/{MealId}"
+@using Recept.Shared.Components
+@inject ApiService ApiService
+
+
+@if (isLoading)
+{
+    <Loading />
+}
+else
+{
+    <div class="main-content meal-container">
+        <img src="@meal.StrMealThumb" class="meal-image" />
+        <div class="meal-info">
+            <h3>Ingredients</h3>
+            <div class="data-group">
+                @foreach (var data in @meal.ValidIngredients)
+                {
+                    <div class="data-container">
+                        <p>@data.Ingredient</p>
+                        <p>@data.Measure</p>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="meal-source">
+            <div class="meal-title">
+                <h1>@meal.StrMeal</h1>
+                <a href="@meal.StrSource" target="_blank">View Recipe</a>
+            </div>
+            @if (!string.IsNullOrWhiteSpace(meal.StrYoutube))
+            {
+                <div class="meal-video">
+                    <iframe src="@meal.StrYoutube.Replace("watch?v=", "embed/")" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen class="video-container">
+
+                    </iframe>
+                </div>
+            }
+            <div class="meal-instructions">
+                <h3>Instructions</h3>
+                <p>@meal.StrInstructions</p>
+            </div>
+        </div>
+    </div>
+}
+
+
+
+@code {
+    [Parameter]
+    public string MealId { get; set; }
+
+    Meal meal;
+
+    bool isLoading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadData();
+    }
+
+    private async Task LoadData()
+    {
+        isLoading = true;
+
+        try
+        {
+            meal = await ApiService.GetSingleMeal(MealId);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"Message: {e.Message}");
+        }
+        finally
+        {
+            isLoading = false;
+        }
+
+
+    }
+}

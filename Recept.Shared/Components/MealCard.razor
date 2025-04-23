@@ -1,0 +1,10 @@
+<NavLink class="recept-card" href=@($"/meal/{meal.IdMeal}") style=@($"background-image: url('{meal.StrMealThumb}');")>
+    <div class="recept-card-info">
+        <p>@(meal.StrMeal.Length > 15 ? meal.StrMeal.Substring(0, 15) + "..." : meal.StrMeal)</p>
+    </div>
+</NavLink>
+
+@code {
+    [Parameter]
+    public Meal meal { get; set; }
+}

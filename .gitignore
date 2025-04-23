@@ -1,0 +1,60 @@
+# === GENERAL .NET ===
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# === ASP.NET / Blazor ===
+wwwroot/
+node_modules/
+dist/
+*.log
+*.db
+*.sqlite
+.vscode/
+
+# === MAUI / Xamarin ===
+*.vs/
+*.apk
+*.aab
+*.apks
+*.xcarchive
+*.app
+*.ipa
+*.dsym
+*.pdb
+*.dSYM.zip
+*.dSYM
+
+# === OS Specific ===
+.DS_Store
+Thumbs.db
+
+# === Environment & Secrets ===
+*.env
+secrets.json
+
+# === Rider / VS Code / JetBrains ===
+.idea/
+.vscode/
+*.code-workspace
+
+# === Build Artifacts ===
+/bin/
+/obj/
+/build/
+
+# === Test Coverage ===
+coverage/
+*.coverage
+*.coveragexml
+TestResults/
+
+# === Logs ===
+*.log
+
+# === User-specific files ===
+*.userprefs
+*.sln.ide

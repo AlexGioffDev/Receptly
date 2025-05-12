@@ -31,9 +31,10 @@ The app is structured into three main projects:
 ## 📸 Screenshots
 
 Screenshots of the app running on different platforms are available in the [`screenshots/`](./screenshots) folder.
-![Screen Web](./screenshots/web.png)
-![Screen Iphone](./screenshots/iphone.png)
-![Screen Android](./screenshots/android.png)
+
+<img src="./screenshots/web.png" alt="web" width=400/>
+<img src="./screenshots/iphone.png" alt="iphone" width=200/>
+<img src="./screenshots/android.png" alt="android" width=200/>
 
 ## 🚀 Platforms
 
